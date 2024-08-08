@@ -1,6 +1,6 @@
 
 
-function removeDupplicate1(arr) 
+function removeDupplicateUsingForLoop(arr) 
 {
     let result = [];
     for (let x of arr)
@@ -12,7 +12,7 @@ function removeDupplicate1(arr)
     return result;
 }
 
-function removeDupplicate2(arr) {
+function removeDupplicateUsingSet(arr) {
     let result = new Set();
     for (let x of arr) 
     {
@@ -21,7 +21,7 @@ function removeDupplicate2(arr) {
     return Array.from(result);
 }
 
-function removeDupplicate3(arr) {
+function removeDupplicateUsingMap(arr) {
     let dictionary = new Map();
     for (let x of arr) {
         if (!dictionary.has(x))
@@ -33,4 +33,16 @@ function removeDupplicate3(arr) {
 }
 
 let array =[1,2,2,3,4,4,4,5,6] ;
-console.log(removeDupplicate(array));
+
+var removeDupplicateFunctionList = new Map();
+removeDupplicateFunctionList.set(1,removeDupplicateUsingForLoop);
+removeDupplicateFunctionList.set(2,removeDupplicateUsingSet);
+removeDupplicateFunctionList.set(3,removeDupplicateUsingMap);
+
+function removeDupplicateValue(arr,opt) 
+{
+    const functionOption = removeDupplicateFunctionList.get(opt);
+    return functionOption(arr);
+}
+
+console.log(removeDupplicateValue(array,1));
