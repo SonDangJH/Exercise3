@@ -62,8 +62,8 @@ function editNode(tree, nodeId, newQuestion) {
 function deleteNode(tree, nodeId) {
     const parentNode = findParentNode(tree, nodeId);
     const index = parentNode.children.findIndex(child => child.id === nodeId);
-    parentNode.children.splice(index, 1);
-    return tree;
+    const copyNode = parentNode.children.slice(index, 1);
+    return copyNode;
 }
 
   

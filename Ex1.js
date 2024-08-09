@@ -2,7 +2,7 @@
 
 function removeDupplicateUsingForLoop(arr) 
 {
-    let result = [];
+    const result = [];
     for (let x of arr)
     {
         if (result.indexOf(x) === -1) {
@@ -13,7 +13,7 @@ function removeDupplicateUsingForLoop(arr)
 }
 
 function removeDupplicateUsingSet(arr) {
-    let result = new Set();
+    const result = new Set();
     for (let x of arr) 
     {
         result.add(x);
@@ -21,8 +21,10 @@ function removeDupplicateUsingSet(arr) {
     return Array.from(result);
 }
 
+let array =[1,2,2,3,4,4,4,5,6] ;
+
 function removeDupplicateUsingMap(arr) {
-    let dictionary = new Map();
+    const dictionary = new Map();
     for (let x of arr) {
         if (!dictionary.has(x))
         {
@@ -32,17 +34,23 @@ function removeDupplicateUsingMap(arr) {
     return Array.from(dictionary, ([value]) => (value ));
 }
 
-let array =[1,2,2,3,4,4,4,5,6] ;
-
-var removeDupplicateFunctionList = new Map();
-removeDupplicateFunctionList.set(1,removeDupplicateUsingForLoop);
-removeDupplicateFunctionList.set(2,removeDupplicateUsingSet);
-removeDupplicateFunctionList.set(3,removeDupplicateUsingMap);
+const removeDupplicateFunctionList = new Map();
+removeDupplicateFunctionList.set("forLoopMethod",removeDupplicateUsingForLoop);
+removeDupplicateFunctionList.set("setMethod",removeDupplicateUsingSet);
+removeDupplicateFunctionList.set("mapMethod",removeDupplicateUsingMap);
 
 function removeDupplicateValue(arr,opt) 
 {
-    const functionOption = removeDupplicateFunctionList.get(opt);
-    return functionOption(arr);
+    try {
+        const functionOption = removeDupplicateFunctionList.get(opt);
+        return functionOption(arr);
+    } catch (error)
+    {
+        console.log("Error occur, maybe option selected is wrong, the array is not process");
+        return arr;
+    }
 }
 
 console.log(removeDupplicateValue(array,1));
+
+
