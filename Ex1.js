@@ -41,16 +41,12 @@ removeDupplicateFunctionList.set("mapMethod",removeDupplicateUsingMap);
 
 function removeDupplicateValue(arr,opt) 
 {
-    try {
-        const functionOption = removeDupplicateFunctionList.get(opt);
-        return functionOption(arr);
-    } catch (error)
-    {
-        console.log("Error occur, maybe option selected is wrong, the array is not process");
-        return arr;
-    }
+    const functionOption = removeDupplicateFunctionList.get(opt);
+    if (functionOption === undefined)
+        throw new Error("The option you choose is not valid")
+    return functionOption(arr);
 }
 
-console.log(removeDupplicateValue(array,1));
+console.log(removeDupplicateValue(array,"forLoopMethod"));
 
 
