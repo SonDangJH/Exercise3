@@ -1,16 +1,57 @@
+
+// type QuestionNode = {
+//   int id;
+//   string question;
+//   list[Answer] answersList;
+// }
+
+// type Answer = {
+//   int id;
+//   string answerText;
+//   QuestionNode newQuestion;
+// }
+
 const decisionTree = {
-    id: 1,
+    questionId: 1,
     question: "1+1=2?",
-    children: [
+    answerList: [
       {
-        id: 2,
-        question: "2+2=4?",
-        children: [
-          { id: 3, question: "2+2=2*2", children: [] },
-          { id: 4, question: "2+2=5?", children: [] },
-        ],
+        answerId: 2,
+        answerText: "Chuan roi",
+        newQuestion: {
+          questionId: 3,
+          question: "Ngo nghinh",
+          answerList: []
+        }
       },
-      { id: 5, question: "1+1=5?", children: [] },
+      { 
+        answerId: 6,
+        answerText: "Maybe dung maybe sai",
+        newQuestion: {
+          questionId: 7,
+          question: "Chac chua",
+          answerList: [
+            {
+              answerId: 8,
+              answerText: "Chuan roi",
+              newQuestion: {
+                questionId: 9,
+                question: "Ngo nghinh",
+                answerList: []
+              }
+            },
+            {
+              answerId: 10,
+              answerText: "Chuan roi",
+              newQuestion: {
+                questionId: 11,
+                question: "Ngo nghinh",
+                answerList: []
+              }
+            },
+          ]
+        }
+      },
     ],
 };
 
@@ -19,52 +60,91 @@ function generateUniqueId() {
     return Date.now(); // A simple example, but consider using UUIDs for better uniqueness
 }
   
-function findNodeById(tree, nodeId) {
-    if (tree.id === nodeId) {
+function findQuestionNodeById(tree, nodeId) {
+    if (tree.questionId === nodeId) {
       return tree;
     }
-    for (const child of tree.children) {
-      const foundNode = findNodeById(child, nodeId);
+    for (const child of tree.answerList) {
+      const foundNode = findQuestionNodeById(child.newQuestion, nodeId);
       if (foundNode) {
         return foundNode;
       }
     }
     return null;
 }
-  
-function findParentNode(tree, nodeId) {
-    for (const child of tree.children) {
-      if (child.id === nodeId) {
-        return tree;
-      }
-      const foundParent = findParentNode(child, nodeId);
-      if (foundParent) {
-        return foundParent;
-      }
+
+function findAnswerNodeById(tree, nodeId) {
+  for (const child of tree.answerList) {
+    if (child.answerId === nodeId)
+    {
+      return child;
     }
-    return null;
+    const foundNode = findAnswerNodeById(child.newQuestion, nodeId);
+    if (foundNode) {
+      return foundNode;
+    }
+  }
+  return null;
 }
 
-function addNode(tree, parentId, question) {
-    const newNode = { id: generateUniqueId(), question, children: [] };
-    const parentNode = findNodeById(tree, parentId);
-    parentNode.children.push(newNode);
+function findQuestionNodeByAnswerId(tree, answerId) {
+  if (tree.answerList.findIndex(item => item.answerId === answerId) >= 0)
+    return tree;
+  for (const child of tree.answerList) {
+    const foundParent = findQuestionNodeByAnswerId(child.newQuestion, answerId);
+    if (foundParent) {
+      return foundParent;
+    }
+  }
+  return null;
+}
+
+
+function addNewAnswerNode(tree, questionId, answerText ,nextQuestion) {
+    const newNode = { answerId: generateUniqueId(), answerText, nextQuestion };
+    const parentNode = findQuestionNodeById(tree, questionId);
+    parentNode.answerList.push(newNode);
     return tree;
 }
+
+
   
 
-function editNode(tree, nodeId, newQuestion) {
-    const node = findNodeById(tree, nodeId);
-    node.question = newQuestion;
+function editAnswerNode(tree, answerId, newAnswerText,newNextQuestion) {
+    const node = findAnswerNodeById(tree, answerId);
+    node.answerText = newAnswerText;
+    node.newQuestion = newNextQuestion;
     return tree;
 }
 
-function deleteNode(tree, nodeId) {
-    const parentNode = findParentNode(tree, nodeId);
-    const index = parentNode.children.findIndex(child => child.id === nodeId);
-    const copyNode = parentNode.children.slice(index, 1);
-    return copyNode;
+function editQuestionNode(tree, questionId, question) {
+  const node = findQuestionNodeById(tree, questionId);
+  node.question = question;
+  return tree;
 }
 
+function deleteAnswerNode(tree, answerId) {
+  const node = findQuestionNodeByAnswerId(tree, answerId);
+  const index = node.answerList.findIndex(child => child.answerId === answerId);
+  const copyTree = tree;
+  copyTree.answerList.splice(index, 1);
+  return copyTree;
+}
+
+// test function
+addNewAnswerNode(decisionTree, 1, 'Yupp', {
+  questionId: generateUniqueId(),
+  question: "Qua met moi",
+  answerList: []
+})
+editAnswerNode(decisionTree, 2, "Ngo cung dui", {
+    questionId: generateUniqueId(),
+    question: "Met moi lan 2",
+    answerList: []
+})
+editQuestionNode(decisionTree, 1, "Alolo");
+
+
+console.log(deleteAnswerNode(decisionTree,2))
   
   

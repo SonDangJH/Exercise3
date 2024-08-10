@@ -1,3 +1,4 @@
+function runProgram()
 {   let slideIndex = 1;
     showSlides(slideIndex);
 
@@ -27,4 +28,18 @@
         slides[slideIndex-1].style.display = "block";
         dots[slideIndex-1].className += " active";
     }
+
+    document.querySelector('.prev').addEventListener('click',function() {
+        plusSlides(-1);
+    })
+    document.querySelector('.next').addEventListener('click',function() {
+        plusSlides(1);
+    })
+    document.querySelectorAll('.dot').forEach((element) => {
+        element.addEventListener('click', function() {
+            currentSlide(element.getAttribute("data-index"));
+        })
+    })
 }
+
+runProgram();
