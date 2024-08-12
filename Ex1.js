@@ -21,7 +21,7 @@ function removeDupplicateUsingSet(arr) {
     return Array.from(result);
 }
 
-let array =[1,2,2,3,4,4,4,5,6] ;
+const array =[1,2,2,3,4,4,4,5,6] ;
 
 function removeDupplicateUsingMap(arr) {
     const dictionary = new Map();
