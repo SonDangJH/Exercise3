@@ -113,27 +113,28 @@ function findAnswerNodeByQuestionId(tree, questionId) {
 
 
 function addNewAnswerNode(tree, questionId, answerText ,nextQuestion) {
-    const newNode = { 
-      answerId: generateUniqueId(), 
-      answerText, 
-      nextQuestion };
-    const parentNode = findQuestionNodeById(tree, questionId);
-    if (parentNode === null) {
-      throw new Error('QuestionId is not valid, the question node does not exist');
-    }
-    parentNode.answerList.push(newNode);
-    return tree;
+  const parentNode = findQuestionNodeById(tree, questionId);
+  if (parentNode === null) {
+    throw new Error('QuestionId is not valid, the question node does not exist');
+  }
+  const newNode = { 
+    answerId: generateUniqueId(), 
+    answerText, 
+    nextQuestion 
+  };
+  parentNode.answerList.push(newNode);
+  return tree;
 }
 
 function addNewQuestionNode(tree, answerId ,nextQuestion) {
-  const newNode = { 
-    questionId: generateUniqueId(), 
-    question: nextQuestion, 
-    answerList: []};
   const answerNode = findAnswerNodeById(tree, answerId);
   if (answerNode === null) {
     throw new Error('AnswerId is not valid, the answer node does not exist');
   }
+  const newNode = { 
+    questionId: generateUniqueId(), 
+    question: nextQuestion, 
+    answerList: []};
   answerNode.newQuestion = newNode;
   return tree;
 }
