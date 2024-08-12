@@ -1,7 +1,6 @@
 
 
-function removeDupplicateUsingForLoop(arr) 
-{
+function removeDupplicateUsingForLoop(arr) {
     const result = [];
     for (let x of arr)
     {
@@ -39,8 +38,7 @@ removeDupplicateFunctionList.set("forLoopMethod",removeDupplicateUsingForLoop);
 removeDupplicateFunctionList.set("setMethod",removeDupplicateUsingSet);
 removeDupplicateFunctionList.set("mapMethod",removeDupplicateUsingMap);
 
-function removeDupplicateValue(arr,opt) 
-{
+function removeDupplicateValue(arr,opt) {
     const functionOption = removeDupplicateFunctionList.get(opt);
     if (functionOption === undefined)
         throw new Error("The option you choose is not valid")

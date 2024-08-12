@@ -1,5 +1,17 @@
-function runProgram()
-{   let slideIndex = 1;
+function runProgram() {   
+    document.querySelector('.prev').addEventListener('click',function() {
+        plusSlides(-1);
+    })
+    document.querySelector('.next').addEventListener('click',function() {
+        plusSlides(1);
+    })
+    document.querySelectorAll('.dot').forEach((element) => {
+        element.addEventListener('click', function() {
+            currentSlide(element.getAttribute("data-index"));
+        })
+    })
+
+    let slideIndex = 1;
     showSlides(slideIndex);
 
     // Next/previous controls
@@ -17,8 +29,12 @@ function runProgram()
         let i;
         const slides = document.getElementsByClassName("mySlides");
         const dots = document.getElementsByClassName("dot");
-        if (n > slides.length) {slideIndex = 1}
-        if (n < 1) {slideIndex = slides.length}
+        if (n > slides.length) {
+            slideIndex = 1
+        }
+        if (n < 1) {
+            slideIndex = slides.length
+        }
         for (i = 0; i < slides.length; i++) {
             slides[i].style.display = "none";
         }
@@ -28,18 +44,6 @@ function runProgram()
         slides[slideIndex-1].style.display = "block";
         dots[slideIndex-1].className += " active";
     }
-
-    document.querySelector('.prev').addEventListener('click',function() {
-        plusSlides(-1);
-    })
-    document.querySelector('.next').addEventListener('click',function() {
-        plusSlides(1);
-    })
-    document.querySelectorAll('.dot').forEach((element) => {
-        element.addEventListener('click', function() {
-            currentSlide(element.getAttribute("data-index"));
-        })
-    })
 }
 
 runProgram();

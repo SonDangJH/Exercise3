@@ -12,7 +12,7 @@ document.getElementById('search-box').addEventListener('keyup',async (event)=>{
     if (queries !== "")
     {
         document.querySelector('.search-container').innerHTML = "";
-        const promise = await fetch("https://api.mapbox.com/search/searchbox/v1/suggest?q="+queries+"&language=en&session_token=[GENERATED-UUID]&country=US&access_token=pk.eyJ1Ijoic29uZGFuZ2poMjAwMyIsImEiOiJjbHprd3JmMzYwcmZ4MmxxMDNnNHdjMm5yIn0.9MP6aJ0OF8TB1FDxeJwiSw");
+        const promise = await fetch("https://api.mapbox.com/search/searchbox/v1/suggest?q="+queries+"&language=en&session_token=[GENERATED-UUID]&country=US&access_token=" + mapboxgl.accessToken);
         const data = await promise.json();
         data.suggestions.forEach(element => {
             if (element['full_address']) {
@@ -24,7 +24,7 @@ document.getElementById('search-box').addEventListener('keyup',async (event)=>{
 
 const findGeometryOfSelectedAddress = async (mapbox_id) => {
     try {
-        const promise = await fetch("https://api.mapbox.com/search/searchbox/v1/retrieve/"+ mapbox_id +"?session_token=[GENERATED-UUID]&access_token=pk.eyJ1Ijoic29uZGFuZ2poMjAwMyIsImEiOiJjbHprd3JmMzYwcmZ4MmxxMDNnNHdjMm5yIn0.9MP6aJ0OF8TB1FDxeJwiSw");
+        const promise = await fetch("https://api.mapbox.com/search/searchbox/v1/retrieve/"+ mapbox_id +"?session_token=[GENERATED-UUID]&access_token=" + mapboxgl.accessToken);
         const data = await promise.json();
         map.flyTo({
             center: data['features'][0]['geometry']['coordinates'],
